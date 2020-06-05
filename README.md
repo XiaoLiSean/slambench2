@@ -3,6 +3,7 @@ This project is intended to discuss the limitation of state-of-art SLAM algorith
 
 ## Courtesy ##
 * OpenLORIS-Scene dataset is used for its better consideration of daily life implementation scenario where objects' life-long dynamics is presented. For more information regarding the dataset, please refer to https://lifelong-robotic-vision.github.io/dataset/scene and 
+
 '''
 @article{shi2019openlorisscene,
     title={Are We Ready for Service Robots? The {OpenLORIS-Scene} Datasets for Lifelong {SLAM}},
