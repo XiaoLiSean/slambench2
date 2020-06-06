@@ -17,7 +17,7 @@ This project is intended to discuss the limitation of state-of-art SLAM algorith
 
 ## Building & Testing ##
 
-For building dependencies under Ubuntu 18.04, you might come across building failures triggered by dependencies (e.g. CERES) being not found. In this case, you might need to install the corresponding dependencies by yourself with extra care on their own dependencies requirements. The entire dependency system is described in https://github.com/pamela-project/slambench2/blob/master/framework/makefiles/README.md under ```slambench2/deps```.
+For building dependencies under Ubuntu 18.04, you might come across building failures triggered by dependencies being not found. In this case, you might need to install the corresponding dependency libraries (e.g. CERES, FLANN) to folder ```slambench2/deps``` by yourself with extra care on their own dependencies requirements. The entire dependency system is described in https://github.com/pamela-project/slambench2/blob/master/framework/makefiles/README.md.
 
 For ubuntu 16.04:
 ```apt-get -y install libvtk6.2 libvtk6-dev unzip libflann-dev wget mercurial git gcc cmake python-numpy freeglut3 freeglut3-dev libglew1.5 libglew1.5-dev libglu1-mesa libglu1-mesa-dev libgl1-mesa-glx libgl1-mesa-dev libxmu-dev libxi-dev  libboost-all-dev cvs libgoogle-glog-dev libatlas-base-dev gfortran  gtk2.0 libgtk2.0-dev libproj9 libproj-dev libyaml-0-2 libyaml-dev libyaml-cpp-dev libhdf5-dev libhdf5-dev```
@@ -71,7 +71,7 @@ There are three loader avaliable for slambench:
 * pangolin_loader
 * lifelong_loader
 
-For ```benchmark_loader``` and ```pangolin_loader```, please refer to https://github.com/pamela-project/slambench2. ```lifelong_loader``` is specifically designed by OpenLORIS to implement relocalization function. We will take testing example on office dataset with orbslam2:
+For ```benchmark_loader``` and ```pangolin_loader```, please refer to https://github.com/pamela-project/slambench2. ```lifelong_loader``` is specifically designed by OpenLORIS including evaluation function for SLAM relocalization. We will take testing example on office dataset with orbslam2:
 
 ```
 make slambench
@@ -81,5 +81,32 @@ make ./datasets/OpenLORIS/office1/office1-1.slam
 ./build/bin/lifelong_loader -i ./datasets/OpenLORIS/office1/office1-1.slam -load ./build/lib/liborbslam2-original-library.so -fo ./1_rgbd
 ```
 
+Moreover, you can replace ```lifelong_loader``` with other two loaders as:
+
+```
+make slambench
+make orbslam2
+make slambench APPS=orbslam2
+make ./datasets/OpenLORIS/office1/office1-1.slam
+./build/bin/XXX_loader -i ./datasets/OpenLORIS/office1/office1-1.slam -load ./build/lib/liborbslam2-original-library.so -fo ./1_rgbd
+```
+
 If three loaders can excuted normally, testing is a success. One remark: ```lifelong_loader``` is capable of taking multiple datasets only when the ```bool sb_relocalize()``` API is implemented. Taking multiple datasets with ```lifelong_loader``` and benchmark SLAM algorithm (e.g. orbslam2) will lead to failure.
 For detail illustration, please refer to https://github.com/pamela-project/slambench2 - Sec. "Compilation of SLAMBench and its benchmarks" and https://github.com/lifelong-robotic-vision/slambench2 - Sec. "Run lifelong_loader".
+
+### Known Issue ###
+For slam usecase like kfusion which has special requirements for CUDA, we will need extra dependencies.
+
+With Ubuntu: apt-get -y install nvidia-cuda-toolkit clinfo
+
+With Fedora: yum install cuda
+
+However, graphics drivers provided by Nvidia might cause your cp entering "low-graphics mode" which might attribute to conflicts between driver programs and GPU (e.g. AMD Radeon Graphics). Try following to resolve the issue:
+
+```
+Ctrl+Alt+F1 Open a TTY terminal session 
+sudo apt-get purge libcuda* nvidia*
+sudo apt-get install lightdm
+sudo service lightdm restart
+```
+This will bring your graphic system back while will not resolve the cuda dependencies issue.
