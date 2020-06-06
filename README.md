@@ -71,7 +71,7 @@ There are three loader avaliable for slambench:
 * pangolin_loader
 * lifelong_loader
 
-For ```benchmark_loader``` and ```pangolin_loader```, please refer to https://github.com/pamela-project/slambench2. ```lifelong_loader``` is specifically designed by OpenLORIS including evaluation function for SLAM relocalization. We will take testing example on office dataset with orbslam2:
+For ```benchmark_loader``` and ```pangolin_loader```, please refer to https://github.com/pamela-project/slambench2. ```lifelong_loader``` is specifically designed by OpenLORIS including evaluation function for SLAM relocalization. We will take testing example on office dataset with orbslam2. Other usecase SLAM algorithms (e.g. orbslam2, kfusion) detail is presented in Pamela-Project:
 
 ```
 make slambench
@@ -97,9 +97,7 @@ For detail illustration, please refer to https://github.com/pamela-project/slamb
 ### Known Issue ###
 For slam usecase like kfusion which has special requirements for CUDA, we will need extra dependencies.
 
-With Ubuntu: apt-get -y install nvidia-cuda-toolkit clinfo
-
-With Fedora: yum install cuda
+```apt-get -y install nvidia-cuda-toolkit clinfo```
 
 However, graphics drivers provided by Nvidia might cause your cp entering "low-graphics mode" which might attribute to conflicts between driver programs and GPU (e.g. AMD Radeon Graphics). Try following to resolve the issue:
 
@@ -109,4 +107,4 @@ sudo apt-get purge libcuda* nvidia*
 sudo apt-get install lightdm
 sudo service lightdm restart
 ```
-This will bring your graphic system back while will not resolve the cuda dependencies issue.
+This will bring your graphic system back while will not resolve the cuda dependencies issue. For more guidance fixing graphics related issues, please refer to https://askubuntu.com/questions/760934/graphics-issues-after-while-installing-ubuntu-16-04-16-10-with-nvidia-graphics.
